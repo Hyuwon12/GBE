@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="selectRegion">
+	SELECT REGION_NAME
+	FROM MARATHON_REGION
+	WHERE REGION_ID = ?
+	</entry>
+	<entry key="selectRegionId">
+	SELECT REGION_ID
+	FROM MARATHON_REGION
+	WHERE REGION_NAME = ?
+	</entry>
+	
+</properties>

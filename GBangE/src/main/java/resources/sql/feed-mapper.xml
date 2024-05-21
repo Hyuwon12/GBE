@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+<entry key = "selectFeedList">
+		SELECT *
+		FROM (
+                SELECT ROWNUM,S.*
+        		FROM (SELECT FEED_NO
+               ,FEED_TITLE
+               ,MEMBER_ID
+               ,COUNT
+               ,CREATE_DATE
+                FROM FEED F
+                JOIN MEMBER M USING (MEMBER_NO)
+                WHERE F.STATUS = 'Y'
+                ORDER BY CREATE_DATE DESC) S)
+		WHERE  "ROWNUM" BETWEEN ? AND ?
+</entry>
+
+<entry key = "insertFeed">
+	INSERT INTO FEED(FEED_NO,CATEGORY_NO,COMPETITION_NO,FEED_TITLE,MEMBER_NO,FEED_CONTENT,BOARD_ID)
+     VALUES(?,?,?,?,?,?,4)
+</entry>
+<entry key="listCount">
+		SELECT COUNT(*) COUNT
+		FROM FEED
+		WHERE STATUS='Y'
+	</entry>
+<entry key="selectCategoryList">
+	SELECT CATEGORY_NO
+	      ,CATEGORY_NAME 
+		FROM CATEGORY
+</entry>
+
+<entry key="selectFeedNo">
+SELECT SEQ_FNO.NEXTVAL FNO
+        FROM DUAL 
+
+</entry>
+
+<entry key="insertAttachment">
+INSERT INTO ATTACHMENT_FEED (FILE_NO
+                        ,REF_BNO
+                        ,ORIGIN_NAME
+                        ,CHANGE_NAME
+                        ,FILE_PATH)
+            VALUES(SEQ_ATT.NEXTVAL
+                    ,?
+                    ,?
+                    ,?
+                    ,?)
+</entry>
+
+<entry key="increaseCount">
+	UPDATE FEED
+	SET COUNT = COUNT +1
+	WHERE FEED_NO = ?
+	AND STATUS = 'Y'
+</entry>
+
+<entry key="selectFeed">
+SELECT FEED_NO
+       ,MEMBER_ID
+       ,CATEGORY_NAME
+       ,MARATHON_NAME
+       ,FEED_TITLE
+       ,FEED_CONTENT
+       ,COUNT
+       ,CREATE_DATE
+       ,LIKE_COUNT
+       FROM FEED F
+       JOIN CATEGORY USING(CATEGORY_NO)
+       JOIN MEMBER M USING (MEMBER_NO)
+       JOIN MARATHON_INFO ON(MARATHON_NO = COMPETITION_NO)
+       WHERE FEED_NO = ?
+       AND F.STATUS = 'Y'
+</entry>
+
+<entry key="selectAttachment">
+	SELECT FILE_NO
+      		 ,ORIGIN_NAME
+       		 ,CHANGE_NAME
+       	     ,FILE_PATH
+	FROM ATTACHMENT_FEED
+	WHERE REF_BNO = ? 
+	AND STATUS = 'Y'
+</entry>
+
+<entry key="insertReply">
+INSERT INTO REPLY_FEED(REPLY_NO
+				,REPLY_CONTENT
+				,REF_BNO
+				,MEMBER_NO
+				,CREATE_DATE)
+        VALUES (SEQ_REP.NEXTVAL
+        ,?
+        ,?
+        ,?
+        ,SYSDATE)
+
+</entry>
+
+<entry key="replyList">
+    SELECT REPLY_NO
+       ,REPLY_CONTENT
+       ,MEMBER_ID
+       ,CREATE_DATE
+	FROM REPLY_FEED R
+	JOIN MEMBER M USING (MEMBER_NO)
+	WHERE R.STATUS = 'Y'
+	AND REF_BNO = ?
+</entry>
+
+<entry key="updateFeed">
+	UPDATE FEED SET CATEGORY_NO = ?
+	,COMPETITION_NO =?
+	,FEED_TITLE = ?
+	,FEED_CONTENT =?
+	WHERE FEED_NO = ?
+	 
+     
+</entry>
+
+<entry key="updateAttachment">
+		UPDATE ATTACHMENT_FEED
+		SET ORIGIN_NAME = ?
+			,CHANGE_NAME = ?
+			,FILE_PATH = ?
+			,UPLOAD_DATE = SYSDATE
+		WHERE FILE_NO = ?
+		AND STATUS = 'Y'
+</entry>
+
+<entry key="deleteFeed">
+		UPDATE FEED
+		SET STATUS = 'N'
+		WHERE FEED_NO = ?
+</entry>
+
+<entry key="deleteReply">
+	UPDATE REPLY_FEED
+	SET STATUS = 'N'
+	WHERE REPLY_NO = ?
+	AND MEMBER_NO = ?
+</entry>
+
+<entry key="addLike">
+UPDATE FEED
+SET LIKE_COUNT = LIKE_COUNT + 1
+WHERE FEED_NO = ? 
+
+</entry>
+
+<entry key="removeLike">
+UPDATE FEED
+SET LIKE_COUNT = LIKE_COUNT - 1
+WHERE FEED_NO = ? 
+
+</entry>
+
+<entry key="selectLike">
+SELECT LIKE_COUNT
+FROM FEED
+WHERE FEED_NO = ?
+</entry>
+
+<entry key="searchTitleContent">
+SELECT 
+    FEED_NO,
+    FEED_TITLE,
+    FEED_CONTENT,
+    MEMBER_ID,
+    COUNT,
+    CREATE_DATE
+
+FROM 
+    FEED F
+JOIN MEMBER M USING (MEMBER_NO)
+WHERE 
+    (FEED_TITLE LIKE ? OR FEED_CONTENT LIKE ?)
+    AND F.STATUS = 'Y'
+ORDER BY FEED_NO DESC
+
+</entry>
+
+<entry key ="searchContent">
+SELECT 
+    FEED_NO,
+    FEED_TITLE,
+    FEED_CONTENT,
+    MEMBER_ID,
+    COUNT,
+    CREATE_DATE
+
+FROM 
+    FEED F
+JOIN MEMBER M USING (MEMBER_NO)
+WHERE 
+  	FEED_CONTENT LIKE ?
+    AND F.STATUS = 'Y'
+ORDER BY FEED_NO DESC
+
+</entry>
+
+<entry key ="searchTitle">
+SELECT 
+    FEED_NO,
+    FEED_TITLE,
+    FEED_CONTENT,
+    MEMBER_ID,
+    COUNT,
+    CREATE_DATE
+
+FROM 
+    FEED F
+JOIN MEMBER M USING (MEMBER_NO)
+WHERE 
+    FEED_TITLE LIKE ?
+    AND F.STATUS = 'Y'
+ORDER BY FEED_NO DESC
+
+</entry>
+</properties>
