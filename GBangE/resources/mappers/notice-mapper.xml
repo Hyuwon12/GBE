@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+<entry key="selectNoticeList">
+ SELECT * FROM(
+ SELECT ROWNUM,S.* FROM (
+        SELECT N.NOTICE_ID,
+               N.NOTICE_TITLE,
+               M.MEMBER_NAME,
+               N.CREATE_DATE,
+               N.COUNT
+        FROM NOTICE N
+        JOIN MEMBER M ON N.MEMBER_NO = M.MEMBER_NO
+        WHERE N.STATUS = 'Y'
+        ORDER BY NOTICE_ID DESC
+    )S)WHERE "ROWNUM" BETWEEN ? AND ?
+    
+</entry>
+
+
+<entry key="insertNotice" >
+INSERT INTO NOTICE(NOTICE_ID, NOTICE_TITLE,MEMBER_NO,NOTICE_CONTENT)
+VALUES(?,?,?,?)
+</entry>
+
+<entry key="increaseCount">
+UPDATE NOTICE
+		SET COUNT = COUNT+1
+		WHERE NOTICE_ID=?
+		AND STATUS='Y'
+
+</entry>
+
+
+
+<entry key="selectNotice">
+
+SELECT NOTICE_ID
+	  ,NOTICE_TITLE
+      ,NOTICE_CONTENT
+      ,MEMBER_NAME
+      ,CREATE_DATE
+      ,COUNT
+FROM NOTICE N
+JOIN MEMBER M ON N.MEMBER_NO = M.MEMBER_NO
+WHERE NOTICE_ID= ?
+AND N.STATUS = 'Y'
+</entry>
+
+<entry key="searchTitleContent">
+SELECT 
+    NOTICE_ID,
+    NOTICE_TITLE,
+    NOTICE_CONTENT,
+    MEMBER_NAME,
+    CREATE_DATE,
+    COUNT
+FROM 
+    NOTICE N
+JOIN 
+    MEMBER M ON N.MEMBER_NO = M.MEMBER_NO
+WHERE 
+    (NOTICE_TITLE LIKE ? OR NOTICE_CONTENT LIKE ?)
+    AND N.STATUS = 'Y'
+ORDER BY NOTICE_ID DESC
+</entry>
+
+<entry key="searchContent">
+SELECT 
+    NOTICE_ID,
+    NOTICE_TITLE,
+    NOTICE_CONTENT,
+    MEMBER_NAME,
+    CREATE_DATE,
+    COUNT
+FROM 
+    NOTICE N
+JOIN 
+    MEMBER M ON N.MEMBER_NO = M.MEMBER_NO
+WHERE 
+    NOTICE_CONTENT LIKE ?
+    AND N.STATUS = 'Y'
+ORDER BY NOTICE_ID DESC
+
+</entry>
+
+
+
+<entry key="searchTitle">
+SELECT 
+    NOTICE_ID,
+    NOTICE_TITLE,
+    NOTICE_CONTENT,
+    MEMBER_NAME,
+    CREATE_DATE,
+    COUNT
+FROM 
+    NOTICE N
+JOIN 
+    MEMBER M ON N.MEMBER_NO = M.MEMBER_NO
+WHERE 
+    NOTICE_TITLE LIKE ?
+    AND N.STATUS = 'Y'
+ORDER BY NOTICE_ID DESC
+
+</entry>
+
+<entry key="insertAttachment">
+INSERT INTO NOTICE_ATTACHMENT (FILE_NO
+                        ,REF_BNO
+                        ,ORIGIN_NAME
+                        ,CHANGE_NAME
+                        ,FILE_PATH)
+            VALUES(FILE_NO_SEQ.NEXTVAL
+                    ,?
+                    ,?
+                    ,?
+                    ,?)
+</entry>
+
+<entry key="selectAttachment">
+SELECT FILE_NO,ORIGIN_NAME,CHANGE_NAME,FILE_PATH
+FROM NOTICE_ATTACHMENT WHERE REF_BNO = ?
+
+
+</entry>
+
+
+<entry key="updateNotice">
+	UPDATE NOTICE
+	SET NOTICE_TITLE = ?
+	   ,NOTICE_CONTENT = ?
+	   WHERE NOTICE_ID = ?
+	   AND STATUS ='Y'
+
+
+</entry>
+
+
+	<entry key="updateAttachment">
+		UPDATE NOTICE_ATTACHMENT 
+		SET ORIGIN_NAME = ?
+			,CHANGE_NAME = ?
+			,FILE_PATH = ?
+			,UPLOAD_DATE = SYSDATE
+		WHERE FILE_NO = ?
+		AND STATUS ='Y'
+	</entry>
+
+
+	
+	<entry key="deleteNotice">
+	UPDATE NOTICE
+		SET STATUS = 'N'
+		WHERE NOTICE_ID = ?
+	
+	
+	</entry>
+	
+	<entry key="nextNotice">
+	SELECT PREV, 
+	NEXT FROM 
+	(SELECT NOTICE_ID,LAG(NOTICE_ID) OVER (ORDER BY NOTICE_ID) AS PREV,
+	LEAD(NOTICE_ID) OVER (ORDER BY NOTICE_ID) AS NEXT FROM NOTICE WHERE STATUS = 'Y') WHERE NOTICE_ID=?
+	</entry>
+	
+	<entry key="selectNoticeId">
+		SELECT NOTICE_SEQ.NEXTVAL NNO
+        FROM DUAL 
+	
+	
+	</entry>
+	
+	
+	<entry key="listCount">
+		SELECT COUNT(*) COUNT
+		FROM NOTICE
+		WHERE STATUS='Y'
+	</entry>
+
+
+</properties>
