@@ -121,12 +121,13 @@ FROM MARATHON_INFO
 WHERE STATUS='N'
 ORDER BY MARATHON_NO
 </select>
-<select id="selectMarathonRegionName" resultType="String" parameterType="_int">
+</mapper>
+<entry key="selectMarathonRegionName">
 SELECT REGION
 FROM MARATHON_INFO
-WHERE MARATHON_NO = #{marathonNo}
-</select>
-<select id="selectSearch" resultMap="MarathonResultSet" parameterType="String">
+WHERE MARATHON_NO = ?
+</entry>
+<entry key="selectSearch">
 SELECT  MARATHON_NO
 		,MARATHON_NAME
 		,LOCATION
@@ -137,10 +138,10 @@ SELECT  MARATHON_NO
 		,OTHER_INTRODUCTION
 		,IMAGE_NO
 FROM MARATHON_INFO
-WHERE MARATHON_NAME LIKE #{searchName}
-OR LOCATION LIKE #{searchName}
-OR REGION LIKE #{searchName}
+WHERE MARATHON_NAME LIKE ?
+OR LOCATION LIKE ?
+OR REGION LIKE ?
 AND STATUS='Y'
 ORDER BY MARATHON_NO
-</select>
-</mapper>
+</entry>
+</properties>
