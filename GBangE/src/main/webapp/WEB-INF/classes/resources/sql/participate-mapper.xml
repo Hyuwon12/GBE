@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+<entry key="insertParticipate">
+INSERT INTO MARATHON_PARTICIPATE(PARTICIPATE_NO
+								,MEMBER_NO
+								,MARATHON_NO
+								,REGION_ID
+								,NAME
+								,PARTICIPATE_COURSE
+								,PASSWORD
+								,REGISTERATION_NO
+								,GENDER
+								,PHONE
+								,ADDRESS
+								,PARTICIPATE_DATE
+								,STATUS)
+VALUES(SEQ_MPP.NEXTVAL,?,?,?,?,?,?,?,?,?,?,SYSDATE,'Y')
+</entry>
+<entry key="listParticipate">
+SELECT PARTICIPATE_NO
+		,NAME
+		,MARATHON_NAME
+		,PARTICIPATE_COURSE				
+		,REGION_NAME
+		,PARTICIPATE_DATE
+		,PHONE
+FROM MARATHON_PARTICIPATE p
+JOIN MARATHON_INFO USING (MARATHON_NO)
+JOIN MARATHON_REGION USING (REGION_ID)
+WHERE MARATHON_NO = ?
+AND P.STATUS = 'Y'
+</entry>
+
+</properties>

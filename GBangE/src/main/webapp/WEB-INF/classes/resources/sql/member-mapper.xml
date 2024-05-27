@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="loginMember">
+	SELECT * 
+	FROM MEMBER 
+	WHERE MEMBER_ID=? AND MEMBER_PWD=? AND STATUS='Y'
+	</entry>
+
+	<entry key="insertMember">
+	INSERT INTO MEMBER(MEMBER_NO, 
+					   MEMBER_NAME, 
+					   MEMBER_ID, 
+					   MEMBER_PWD, 
+					   GENDER, 
+					   ADDRESS, 
+					   MEMBER_PNO, 
+					   SHOES, 
+					   WEIGHT)
+	VALUES(SEQ_MEM.NEXTVAL,
+		   ?,
+		   ?,
+		   ?,
+		   ?,
+		   ?,
+		   ?,
+		   ?,
+		   ?)
+	</entry>
+	
+	<entry key="checkId">
+	SELECT * 
+	FROM MEMBER 
+	WHERE MEMBER_ID = ?
+	</entry>
+	
+	<entry key="findId">
+	SELECT MEMBER_ID, MEMBER_PNO
+	FROM MEMBER
+	WHERE MEMBER_NAME = ? AND MEMBER_PNO = ?
+	</entry>
+	
+	<entry key="findPwd">
+	SELECT *
+	FROM MEMBER
+	WHERE MEMBER_ID= ? AND 
+		  MEMBER_NAME = ? AND 
+		  MEMBER_PNO = ?
+	</entry>
+	
+	<entry key="changePwd">
+	UPDATE MEMBER 
+	SET MEMBER_PWD= ?
+	WHERE MEMBER_ID= ?
+	</entry>
+	
+	<entry key="updateMember">
+	UPDATE MEMBER SET MEMBER_NAME = ?,
+                      GENDER = ?,
+                      ADDRESS = ?,
+                      SHOES = ?,
+                      WEIGHT = ?
+	WHERE MEMBER_ID = ?
+	</entry>
+	
+	<entry key="selectMember">
+	SELECT *
+	FROM MEMBER
+	WHERE MEMBER_ID = ?
+	</entry>
+	
+	<entry key="updateProfile">
+	UPDATE MEMBER 
+	SET PROFILE_IMAGE = ?,
+		FILE_PATH = ?,
+		CHANGE_NAME = ?
+	WHERE MEMBER_ID = ?
+	</entry>
+	
+	<entry key="checkPno">
+	SELECT * 
+	FROM MEMBER 
+	WHERE MEMBER_PNO = ?
+	</entry>
+	
+	<entry key= "mileagePlus">
+	UPDATE MEMBER
+	SET MILEAGE = MILEAGE + ?
+	WHERE MEMBER_ID = ?
+	</entry>
+</properties>

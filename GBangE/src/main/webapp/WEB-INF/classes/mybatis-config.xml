@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>		
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+  <typeAliases>
+  	<typeAlias type="com.kh.common.model.vo.PageInfo" alias="PageInfo"/>  	
+  	<typeAlias type="com.kh.feed.model.vo.Attachment" alias="FeedAttachment"/>
+  	<typeAlias type="com.kh.feed.model.vo.Category" alias="FeedCategory"/>
+  	<typeAlias type="com.kh.feed.model.vo.Feed" alias="Feed"/>
+  	<typeAlias type="com.kh.feed.model.vo.FeedLike" alias="FeedLike"/>
+  	<typeAlias type="com.kh.feed.model.vo.Reply" alias="FeedReply"/>
+  	<typeAlias type="com.kh.marathon.model.vo.Marathon" alias="Marathon"/>
+  	<typeAlias type="com.kh.marathon.model.vo.Participate" alias="Participate"/>
+  	<typeAlias type="com.kh.marathon.model.vo.Region" alias="Region"/>  	
+  	<typeAlias type="com.kh.member.model.vo.Member" alias="Member"/>  	
+  	<typeAlias type="com.kh.notice.model.vo.Attachment" alias="NoticeAttachment"/>
+  	<typeAlias type="com.kh.notice.model.vo.Notice" alias="Notice"/>  	
+  	<typeAlias type="com.kh.qna.model.vo.Answer" alias="Answer"/>
+  	<typeAlias type="com.kh.qna.model.vo.Question" alias="Question"/>  	
+  	<typeAlias type="com.kh.shoes.model.vo.Shoes" alias="Shoes"/>  	
+  	<typeAlias type="com.kh.training.model.vo.Attachment" alias="TrainingAttachment"/>
+  	<typeAlias type="com.kh.training.model.vo.Reply" alias="TrainingReply"/>
+  	<typeAlias type="com.kh.training.model.vo.Shoes" alias="TrainingShoes"/>
+  	<typeAlias type="com.kh.training.model.vo.Training" alias="Training"/>
+  	<typeAlias type="com.kh.training.model.vo.TrainingCategory" alias="TrainingCategory"/>
+  	<typeAlias type="com.kh.training.model.vo.TrainingComment" alias="TrainingComment"/>
+  	<typeAlias type="com.kh.training.model.vo.TrainingImgNamePolicy" alias="TrainingImgNamePolicy"/>  	
+  </typeAliases>
+  <environments default="development">
+	<environment id="development">	
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+        <property name="username" value="GBANGE"/>
+        <property name="password" value="GBANGE"/>
+      </dataSource>
+    </environment>
+  </environments>  
+  <mappers>
+  	<mapper resource="/mappers/feed-mapper.xml"/>
+  	<mapper resource="/mappers/marathon-mapper.xml"/>
+  	<mapper resource="/mappers/member-mapper.xml"/>
+    <mapper resource="/mappers/notice-mapper.xml"/>
+    <mapper resource="/mappers/participate-mapper.xml"/>
+    <mapper resource="/mappers/qna-mapper.xml"/>
+    <mapper resource="/mappers/region-mapper.xml"/>
+    <mapper resource="/mappers/training-mapper.xml"/>
+  </mappers>
+</configuration>
