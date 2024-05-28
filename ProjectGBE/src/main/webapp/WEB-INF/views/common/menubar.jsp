@@ -2,6 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <%
 Member loginUser = (Member)session.getAttribute("loginUser");
 String alertMsg = (String)session.getAttribute("alertMsg");
@@ -88,12 +90,12 @@ alert(msg);
     			<li><input type="button" onclick="myPage();" value="<%=loginUser.getMemberId() %>" class="btn btn-info"></li>
     		</c:otherwise>
     	</c:choose>
-        <li><a href="https://www.instagram.com/gbang_e/?next=%2Faccounts%2Flogout%2F"><img style="width:32px; height:32px;" src="/WEB-INF/views/common/resources/img/free-icon-instagram-733558.png"></a> </li>
-        <li><a href="https://www.facebook.com/?locale=ko_KR"><img style="width:32px; height:32px;" src="/WEB-INF/views/common/resources/img/free-icon-facebook-220200.png"></a></li>
+        <li><a href="https://www.instagram.com/gbang_e/?next=%2Faccounts%2Flogout%2F"><img style="width:32px; height:32px;" src="resources/common/img/free-icon-instagram-733558.png"></a> </li>
+        <li><a href="https://www.facebook.com/?locale=ko_KR"><img style="width:32px; height:32px;" src="resources/common/img/free-icon-facebook-220200.png"></a></li>
     </ul>
 </nav>
 <nav id="nav2">
-      <a href="${contextPath}"> <img src="/WEB-INF/views/common/resources/img/Logo-Black.png" alt="지방이" class="logo"></a>
+      <a href="${contextPath}"> <img src="resources/common/img/Logo-Black.png" alt="지방이" class="logo"></a>
         <ul>
           <li><a href="${contextPath}/list.no?currentPage=1">공지사항</a></li>
           <li><a href="${contextPath}/list.tr?currentPage=1">러닝일지 게시판</a></li>

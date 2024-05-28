@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="qnaMapper">
+<select id="selectRegion" resultType="String" parameterType="_int">
+	SELECT REGION_NAME
+	FROM MARATHON_REGION
+	WHERE REGION_ID = #{regionId}
+</select>
+<select id="selectRegionId" resultType="_int" parameterType="String">
+	SELECT REGION_ID
+	FROM MARATHON_REGION
+	WHERE REGION_NAME = #{regionName}
+</select>
+</mapper>

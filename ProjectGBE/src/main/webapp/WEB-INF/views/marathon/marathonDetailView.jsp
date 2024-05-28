@@ -29,8 +29,7 @@
 </style>
 </head>
 <body>
-
-<%@include file="/views/common/menubar.jsp"%>
+<%@include file="/WEB-INF/views/common/menubar.jsp"%>
 <div class="head">
 	<h1>대회정보</h1>
 </div>

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>    
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -26,10 +26,17 @@
 					<c:forEach var="mar" items="${marathonArr}">
 						<div class="packages-item">
                 	<div class="packages-img" onclick="window.open('${mar.marathonSite }')">
-                    	<img src="views/marathon/img/${mar.imageNo }.jpg" class="img-fluid w-100 rounded-top" style="width:400px;height:300px;">
+                		<c:choose>
+                		<c:when test="${mar.imageNo>107 }">
+                			<img src="resources/marathon/img/500x400.png" class="img-fluid w-100 rounded-top" style="width:400px;height:300px;">
+                		</c:when>
+                		<c:otherwise>
+                			<img src="resources/marathon/img/${mar.imageNo }.jpg" class="img-fluid w-100 rounded-top" style="width:400px;height:300px;">
+                		</c:otherwise>
+                		</c:choose>                    	
                     <div class="packages-info d-flex border border-start-0 border-end-0 position-absolute" style="width: 100%; bottom: 0; left: 0; z-index: 5;">
                         <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt me-2"></i>${mar.region }</small>
-                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt me-2"></i>${mar.marathonDate }</small>
+                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt me-2"></i>${fn:substring(mar.marathonDate,0,fn:indexOf(mar.marathonDate,' '))}</small>
                         <small class="flex-fill text-center py-2"><i class="fa fa-user me-2"></i>${mar.organizer }</small>
                     </div>
                 	</div>
@@ -38,7 +45,7 @@
 	                        <h5 class="mb-0" style="height:68px">${mar.marathonName }</h5>
 	                        <small class="text-uppercase">대회번호<span>${mar.marathonNo }</span></small>
 	                        <p class="mb-4">상세정보</p>
-	                        <p class="mb-4" style="height:48px">${mar.otherIntroduction }</p>
+	                        <p class="mb-4" style="height:48px">${fn:substring(mar.otherIntroduction,0,50)}</p>
 	                    </div>
 	                    <div class="row bg-primary rounded-bottom mx-0">
 	                        <div class="col-6 text-start px-0">
@@ -66,7 +73,7 @@
                     <div class="modal-header">                    
                       <h5 class="modal-title" id="staticBackdropLabel">전체 대회정보</h5>                      
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
+                    </div>                    
                     <div class="modal-body">
                     <table class="marathonclass" style="font-size: 12px">
                     <thead align="center">
@@ -92,7 +99,7 @@
 								<td>${mar.marathonName}</td>
 								<td>${mar.location }</td>
 								<td>${mar.region }</td>
-								<td>${mar.marathonDate }</td>
+								<td>${fn:substring(mar.marathonDate,0,fn:indexOf(mar.marathonDate,' '))}</td>
 							</tr>
 						</c:forEach>	
 					</c:otherwise>
@@ -128,14 +135,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600&family=Roboto&display=swap" rel="stylesheet"> 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-<link href="/WEB-INF/views/marathon/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-<link href="/WEB-INF/views/marathon/css/bootstrap.min.css" rel="stylesheet">
-<link href="/WEB-INF/views/marathon/css/style.css" rel="stylesheet">
+<link href="resources/marathon/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+<link href="resources/marathon/css/bootstrap.min.css" rel="stylesheet">
+<link href="resources/marathon/css/style.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/WEB-INF/views/marathon/lib/waypoints/waypoints.min.js"></script>
-<script src="/WEB-INF/views/marathon/lib/owlcarousel/owl.carousel.min.js"></script>
-<script src="/WEB-INF/views/marathon/js/main.js"></script>
+<script src="resources/marathon/lib/waypoints/waypoints.min.js"></script>
+<script src="resources/marathon/lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="resources/marathon/js/main.js"></script>
 <script type="text/javascript">
 $(function(){
 	$("#marathonResetBtn").css("display","");
