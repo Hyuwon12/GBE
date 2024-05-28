@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="marathonMapper">
+<resultMap type="Marathon" id="MarathonResultSet">
+	<result column="MARATHON_NO" property="marathonNo" />
+	<result column="MARATHON_NAME" property="marathonName" />
+	<result column="LOCATION" property="location" />
+	<result column="REGION" property="region" />
+	<result column="MARATHON_DATE" property="marathonDate" />
+	<result column="APPLICATION_DATE" property="applicationDate" />
+	<result column="OTHER_INTRODUCTION" property="otherIntroduction" />
+	<result column="ORGANIZER" property="organizer" />
+	<result column="ORGANIZER_HOST" property="organizerHost" />
+	<result column="ORGANIZER_PHONE" property="organizerPhone" />
+	<result column="MARATHON_SITE" property="marathonSite" />
+	<result column="STATUS" property="status" />
+	<result column="IMAGE_NO" property="imageNo" />
+	<result column="MARATHON_COURSE" property="marathonCourse" />
+</resultMap>
+<delete id="deleteAllMarathon">
+	DELETE FROM MARATHON_INFO
+</delete>
+<insert id="insertMarathon" parameterType="Marathon">
+INSERT INTO MARATHON_INFO(MARATHON_NO
+					,MARATHON_NAME
+					,LOCATION
+					,REGION
+					,MARATHON_DATE
+					,APPLICATION_DATE
+					,OTHER_INTRODUCTION
+					,ORGANIZER
+					,ORGANIZER_HOST
+					,ORGANIZER_PHONE
+					,MARATHON_SITE
+					,IMAGE_NO
+					,MARATHON_COURSE)
+VALUES(SEQ_MIF.NEXTVAL
+		,#{marathonName}
+		,#{location}
+		,#{region}
+		,#{marathonDate}
+		,#{applicationDate}
+		,#{otherIntroduction}
+		,#{organizer}
+		,#{organizerHost}
+		,#{organizerPhone}
+		,#{marathonSite}
+		,#{imageNo}
+		,#{marathonCourse})
+</insert>
+<select id="selectMarathon" resultMap="MarathonResultSet">
+SELECT  MARATHON_NO
+		,MARATHON_NAME
+		,LOCATION
+		,REGION
+		,MARATHON_DATE
+		,MARATHON_SITE
+		,ORGANIZER
+		,OTHER_INTRODUCTION
+		,IMAGE_NO
+FROM MARATHON_INFO
+WHERE STATUS='Y'
+ORDER BY MARATHON_NO	
+</select>
+<select id="marathonDetail" resultMap="MarathonResultSet">
+SELECT  MARATHON_NO
+		,MARATHON_NAME
+		,LOCATION
+		,REGION
+		,MARATHON_DATE
+		,APPLICATION_DATE
+		,OTHER_INTRODUCTION
+		,ORGANIZER
+		,ORGANIZER_HOST
+		,ORGANIZER_PHONE
+		,MARATHON_SITE
+		,STATUS
+		,IMAGE_NO
+		,MARATHON_COURSE
+FROM MARATHON_INFO
+WHERE MARATHON_NO=#{marathonNo}
+</select>
+<update id="updateMarathon" parameterType="Marathon">
+UPDATE MARATHON_INFO
+SET MARATHON_NAME = #{marathonName}
+    ,LOCATION = #{location}
+    ,REGION = #{region}
+    ,MARATHON_COURSE = #{marathonCourse}
+    ,MARATHON_DATE = #{marathonDate}
+    ,APPLICATION_DATE = #{applicationDate}
+    ,OTHER_INTRODUCTION = #{otherIntroduction}
+    ,ORGANIZER = #{organizer}
+    ,ORGANIZER_HOST = #{organizerHost}
+    ,ORGANIZER_PHONE = #{organizerPhone}
+    ,MARATHON_SITE = #{marathonSite}
+WHERE MARATHON_NO = #{marathonNo}
+AND STATUS = 'Y'
+</update>
+<update id="deleteMarathon" parameterType="_int">
+UPDATE MARATHON_INFO
+SET STATUS = 'N'
+WHERE MARATHON_NO = #{marathonNo}
+</update>
+<update id="restoreMarathon" parameterType="_int">
+UPDATE MARATHON_INFO
+SET STATUS = 'Y'
+WHERE MARATHON_NO = #{marathonNo}
+</update>
+<select id="selectDeleteMarathon" resultMap="MarathonResultSet">
+SELECT  MARATHON_NO
+		,MARATHON_NAME
+		,LOCATION
+		,REGION
+		,MARATHON_DATE
+		,MARATHON_SITE
+		,ORGANIZER
+		,OTHER_INTRODUCTION
+FROM MARATHON_INFO
+WHERE STATUS='N'
+ORDER BY MARATHON_NO
+</select>
+<select id="selectMarathonRegionName" resultType="String" parameterType="_int">
+SELECT REGION
+FROM MARATHON_INFO
+WHERE MARATHON_NO = #{marathonNo}
+</select>
+<select id="selectSearch" resultMap="MarathonResultSet" parameterType="String">
+SELECT  MARATHON_NO
+		,MARATHON_NAME
+		,LOCATION
+		,REGION
+		,MARATHON_DATE
+		,MARATHON_SITE
+		,ORGANIZER
+		,OTHER_INTRODUCTION
+		,IMAGE_NO
+FROM MARATHON_INFO
+WHERE MARATHON_NAME LIKE #{searchName}
+OR LOCATION LIKE #{searchName}
+OR REGION LIKE #{searchName}
+AND STATUS='Y'
+ORDER BY MARATHON_NO
+</select>
+</mapper>

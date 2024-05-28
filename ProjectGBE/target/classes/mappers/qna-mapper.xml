@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="qnaMapper">
+<resultMap type="Question" id="questionResultSet">
+	<result column="QUESTION_ID" property="questionId"/>
+	<result column="MEMBER_NO" property="memberNo"/>
+	<result column="QUESTION_TITLE" property="questionTitle"/>
+	<result column="QUESTION_CONTENT" property="questionContent"/>
+	<result column="CREATE_DATE" property="createDate"/>
+	<result column="STATUS" property="status"/>
+</resultMap>
+<resultMap type="Answer" id="answerResultSet">
+	<result column="ANSWER_ID" property="answerId"/>
+	<result column="MEMBER_NO" property="memberNo"/>
+	<result column="REF_QNO" property="refQno"/>
+	<result column="ANSWER_TITLE" property="answerTitle"/>
+	<result column="ANSWER_CONTENT" property="answerContent"/>
+	<result column="CREATE_DATE" property="createDate"/>
+	<result column="STATUS" property="status"/>
+</resultMap>
+<insert id="insertQuestion" parameterType="Question">
+INSERT INTO QUESTION (QUESTION_ID
+						,MEMBER_NO
+						,QUESTION_TITLE
+						,QUESTION_CONTENT
+						,CREATE_DATE
+						,STATUS)
+VALUES(SEQ_QNO.NEXTVAL,#{memberNo},#{questionTitle},#{questionContent},SYSDATE,'Y')
+</insert>
+<select id="selectQuestion" resultMap="questionResultSet">
+SELECT QUESTION_ID,MEMBER_NAME,QUESTION_TITLE,QUESTION_CONTENT,CREATE_DATE
+FROM QUESTION q
+JOIN MEMBER USING(MEMBER_NO)
+WHERE q.STATUS = 'Y'
+ORDER BY CREATE_DATE DESC
+</select>
+<insert id="insertAnswer" parameterType="Answer">
+INSERT INTO ANSWER (ANSWER_ID,MEMBER_NO,REF_QNO,ANSWER_TITLE,ANSWER_CONTENT,CREATE_DATE,STATUS)
+VALUES(SEQ_ANO.NEXTVAL,#{memberNo},#{refQno},#{answerTitle},#{answerContent},SYSDATE,'Y')
+</insert>
+<select id="selectAnswer" parameterType="_int" resultMap="answerResultSet">
+SELECT ANSWER_ID,REF_QNO,MEMBER_NO,MEMBER_NAME,ANSWER_TITLE,ANSWER_CONTENT,CREATE_DATE
+FROM ANSWER a
+JOIN MEMBER USING(MEMBER_NO)
+WHERE REF_QNO = #{refQno} 
+AND a.STATUS = 'Y'
+ORDER BY CREATE_DATE asc
+</select>
+<select id="selectAllAnswer" resultMap="answerResultSet">
+SELECT ANSWER_ID,REF_QNO,MEMBER_NAME,ANSWER_TITLE,ANSWER_CONTENT,CREATE_DATE
+FROM ANSWER a
+JOIN MEMBER USING(MEMBER_NO)
+WHERE a.STATUS = 'Y'
+ORDER BY CREATE_DATE asc
+</select>
+<update id="deleteAnswer" parameterType="_int">
+UPDATE ANSWER
+SET STATUS = 'N'
+WHERE ANSWER_ID = #{answerId}
+</update>
+<select id="selectRefQno" parameterType="_int">
+SELECT REF_QNO
+FROM ANSWER
+WHERE ANSWER_ID = #{answerId}
+</select>
+</mapper>
