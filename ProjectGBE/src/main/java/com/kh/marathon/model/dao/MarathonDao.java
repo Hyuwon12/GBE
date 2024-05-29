@@ -53,63 +53,14 @@ public class MarathonDao{
 		return sqlSession.update("marathonMapper.updateMarathon", m);
 	}
 
-	
-
-	public String selectMarathonRegionName(Connection conn, int marathonNo) {
-		String regionName = "";
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectMarathonRegionName");
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, marathonNo);
-			rset=pstmt.executeQuery();
-			if(rset.next()) {
-				regionName=rset.getString("REGION");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}
-		return regionName;
+	public String selectMarathonRegionName(SqlSessionTemplate sqlSession, int marathonNo) {
+		return sqlSession.selectOne("marathonMapper.selectMarathonRegion", marathonNo);
 	}
-	public JSONArray selectSearch(Connection conn, String searchName) {
-		JSONArray searchArr = new JSONArray();
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectSearch");
-		try {
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, "%"+searchName+"%");
-			pstmt.setString(2, "%"+searchName+"%");
-			pstmt.setString(3, "%"+searchName+"%");
-			rset = pstmt.executeQuery();
-			while(rset.next()) {
-				JSONObject jobj = new JSONObject();
-				jobj.put("marathonNo",rset.getString("MARATHON_NO"));
-				jobj.put("marathonName",rset.getString("MARATHON_NAME"));
-				jobj.put("location",rset.getString("LOCATION"));
-				jobj.put("region",rset.getString("REGION"));
-				jobj.put("marathonDate",rset.getString("MARATHON_DATE").substring(0, rset.getString("MARATHON_DATE").indexOf(" ")));
-				jobj.put("marathonSite",rset.getString("MARATHON_SITE"));
-				jobj.put("organizer", rset.getString("ORGANIZER"));
-				String otherIntroduction = rset.getString("OTHER_INTRODUCTION");
-				if(otherIntroduction!=null&&otherIntroduction.length()>50) {
-					otherIntroduction = otherIntroduction.substring(0,50);
-				}
-				jobj.put("otherIntroduction", otherIntroduction);
-				jobj.put("imageNo", rset.getInt("IMAGE_NO"));
-				searchArr.add(jobj);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}
-		return searchArr;
+	
+	public ArrayList<Marathon> searchMarathon(SqlSessionTemplate sqlSession, String searchName) {
+		searchName = "%"+searchName+"%";
+		List<Marathon> searchList = sqlSession.selectList("marathonMapper.searchMarathon", searchName);
+		return (ArrayList<Marathon>)searchList;
 	}
 
 }

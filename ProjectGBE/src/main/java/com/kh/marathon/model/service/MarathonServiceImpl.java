@@ -112,21 +112,13 @@ public class MarathonServiceImpl implements MarathonService{
     @Override
 	public int updateMarathon(Marathon m) {
 		return marathonDao.updateMarathon(sqlSession,m);
+	}	
+    @Override
+	public String selectMarathonRegionName(int marathonNo) {		
+		return marathonDao.selectMarathonRegionName(sqlSession, marathonNo);
 	}
-	
-	
-
-	public String selectMarathonRegionName(int marathonNo) {
-		Connection conn = JDBCTemplate.getConnection();
-		String regionName = new MarathonDao().selectMarathonRegionName(conn,marathonNo);
-		JDBCTemplate.close(conn);
-		return regionName;
-	}
-
-	public JSONArray selectSearch(String searchName) {
-		Connection conn = JDBCTemplate.getConnection();
-		JSONArray searchArr = new MarathonDao().selectSearch(conn,searchName);
-		JDBCTemplate.close(conn);
-		return searchArr;
+	@Override
+	public ArrayList<Marathon> searchMarathon(String searchName) {
+		return marathonDao.searchMarathon(sqlSession,searchName);
 	}
 }

@@ -22,4 +22,8 @@ public interface MarathonService {
 
 	int updateMarathon(Marathon m);
 
+	ArrayList<Marathon> searchMarathon(String searchName);
+
+	String selectMarathonRegionName(int marathonNo);
+
 }

@@ -20,7 +20,7 @@ tbody tr:hover{
 </style>
 </head>
 <body>
-	<%@include file="/views/common/menubar.jsp"%>
+<%@include file="/WEB-INF/views/common/menubar.jsp"%>
 	<table class="marathonclass" style="font-size: 12px">
 		<thead align="center">
 			<tr>

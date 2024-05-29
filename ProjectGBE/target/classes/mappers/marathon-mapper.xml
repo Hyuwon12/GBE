@@ -126,7 +126,7 @@ SELECT REGION
 FROM MARATHON_INFO
 WHERE MARATHON_NO = #{marathonNo}
 </select>
-<select id="selectSearch" resultMap="MarathonResultSet" parameterType="String">
+<select id="searchMarathon" resultMap="MarathonResultSet" parameterType="String">
 SELECT  MARATHON_NO
 		,MARATHON_NAME
 		,LOCATION
