@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Repository;
 
 import com.kh.marathon.model.vo.Participate;
-
+@Repository
 public class ParticipateDao {
 
 	public int insertParticipate(SqlSessionTemplate sqlSession, Participate p) {		

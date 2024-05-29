@@ -68,7 +68,7 @@ h3{
 </style>
 </head>
 <body>
-	<%@include file="/views/common/menubar.jsp"%>
+<%@include file="/WEB-INF/views/common/menubar.jsp"%>
 	<div class="outer form-floating mb-3">
 	<form action="insert.pa" method="post">
 		<input type="hidden" name="memberNo" value="${memberNo }">
@@ -100,6 +100,7 @@ h3{
 			<label id="hidden-pnoArea"></label>
 		</div>
 		<div class="registerationNo">
+			<input type="hidden" id="inputRegisterationNo" name="registerationNo">
 			<input type="text" class="form-control" id="registerationNo1" name="registerationNo1" required>
 			<font style="font-size: 30px; color:black;">-</font>
 			<input type="password" class="form-control" id="registerationNo2" name="registerationNo2" required>
@@ -123,7 +124,8 @@ h3{
 		<div>
 			<label for="participateAddress">* 주소</label>
 		</div>
-		<div class="participateAddress">					
+		<div class="participateAddress">
+			<input type="hidden" id="inputAddress" name="address">					
 			<input type="text" name="sample6_postcode" id="sample6_postcode" placeholder="우편번호">
 			<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
 			<input type="text" name="sample6_address" id="sample6_address" placeholder="주소"><br>
@@ -141,8 +143,7 @@ h3{
 <script>
 	function test(){
 		var regBirth = /^([0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[1,2][0-9]|3[0,1]))$/;
-		var regPno = /^[1-4]\d{6}$/;
-		
+		var regPno = /^[1-4]\d{6}$/;		
 		if ($("#checkPwd").val() != $("#participatePwd").val()) {
 			$("#hidden-checkPwdArea").html("*비밀번호가 다릅니다.").show();
 			$("#hidden-checkPwdArea").css({
@@ -179,6 +180,10 @@ h3{
 		} else {
 			$("#hidden-pnoArea").hide();
 		}
+		var registerationNo=$("#registerationNo1").val()+"-"+$("#registerationNo2").val();
+		var address = $("#sample6_address").val()+$("#sample6_detailAddress").val()+$("#sample6_postcode").val()+$("#sample6_extraAddress").val();
+		$("#inputRegisterationNo").val(registerationNo);
+		$("#inputAddress").val(address);
 	}
     function sample6_execDaumPostcode() {
         new daum.Postcode({

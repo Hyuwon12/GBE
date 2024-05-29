@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -97,5 +98,23 @@ public class MarathonController {
 			session.setAttribute("alertMsg", "변경 실패");
 		}
 	return "redirect:/detail.ma?marathonNo="+m.getMarathonNo();
+	}
+	
+	@RequestMapping("search.ma")
+	public String searchMarathon(String searchName,Model model) {		
+		ArrayList<Marathon> searchArr = marathonService.searchMarathon(searchName);
+		int contentCount= 0;
+		if(searchArr!=null) {
+			contentCount=searchArr.size();
+		}
+		model.addAttribute("marathonArr", searchArr);
+		model.addAttribute("contentCount", contentCount);
+		model.addAttribute("searchName", searchName);
+		return "marathon/searchMarathon";
+	}
+	@RequestMapping("")
+	public String selectMarathonRegionName(int marathonNo) {
+		marathonService.selectMarathonRegionName(marathonNo);
+		return ""; 
 	}
 }

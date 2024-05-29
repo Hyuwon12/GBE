@@ -5,7 +5,7 @@
 <head>
    <meta charset="utf-8">
    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-   <style> 
+<style> 
 .packages .packages-item .packages-img {
     position: relative;
     overflow: hidden;
@@ -158,7 +158,7 @@
    </style>             
 </head>
 <body>
-<%@include file="/views/common/menubar.jsp"%>
+<%@include file="/WEB-INF/views/common/menubar.jsp"%>
 <div class="container-fluid packages py-5">
 	<div class="searchArea">			
 		<input type="search" name="searchName" id="searchName">
@@ -181,10 +181,17 @@
 					<c:forEach var="mar" items="${marathonArr}">
 						<div class="packages-item">
                 	<div class="packages-img" onclick="window.open('${mar.marathonSite }')">
-                    	<img src="views/marathon/img/${mar.imageNo }.jpg" class="img-fluid w-100 rounded-top" style="width:400px;height:300px;">
+                    	<c:choose>
+                		<c:when test="${mar.imageNo>107 }">
+                			<img src="resources/marathon/img/500x400.png" class="img-fluid w-100 rounded-top" style="width:400px;height:300px;">
+                		</c:when>
+                		<c:otherwise>
+                			<img src="resources/marathon/img/${mar.imageNo }.jpg" class="img-fluid w-100 rounded-top" style="width:400px;height:300px;">
+                		</c:otherwise>
+                		</c:choose>
                     <div class="packages-info d-flex border border-start-0 border-end-0 position-absolute" style="width: 100%; bottom: 0; left: 0; z-index: 5;">
                         <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt me-2"></i>${mar.region }</small>
-                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt me-2"></i>${mar.marathonDate }</small>
+                        <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt me-2"></i>${fn:substring(mar.marathonDate,0,fn:indexOf(mar.marathonDate,' '))}</small>
                         <small class="flex-fill text-center py-2"><i class="fa fa-user me-2"></i>${mar.organizer }</small>
                     </div>
                 	</div>
@@ -193,7 +200,7 @@
 	                        <h5 class="mb-0" style="height:68px">${mar.marathonName }</h5>
 	                        <small class="text-uppercase">대회번호<span>${mar.marathonNo }</span></small>
 	                        <p class="mb-4">상세정보</p>
-	                        <p class="mb-4" style="height:48px">${mar.otherIntroduction }</p>
+	                        <p class="mb-4" style="height:48px">${fn:substring(mar.otherIntroduction,0,50)}</p>
 	                    </div>
 	                    <div class="row bg-primary rounded-bottom mx-0">
 	                        <div class="col-6 text-start px-0">
@@ -280,13 +287,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600&family=Roboto&display=swap" rel="stylesheet"> 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-<link href="views/marathon/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-<link href="views/marathon/css/bootstrap.min.css" rel="stylesheet">
-<link href="views/marathon/css/style.css" rel="stylesheet">
+<link href="resources/marathon/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+<link href="resources/marathon/css/bootstrap.min.css" rel="stylesheet">
+<link href="resources/marathon/css/style.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="views/marathon/lib/waypoints/waypoints.min.js"></script>
-<script src="views/marathon/lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="resources/marathon/lib/waypoints/waypoints.min.js"></script>
+<script src="resources/marathon/lib/owlcarousel/owl.carousel.min.js"></script>
 <script type="text/javascript">
 function checkParticipate(e){
 	if('${loginUser.memberNo}'==""){

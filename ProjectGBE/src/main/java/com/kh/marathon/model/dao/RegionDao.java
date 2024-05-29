@@ -1,7 +1,8 @@
 package com.kh.marathon.model.dao;
 
 import org.mybatis.spring.SqlSessionTemplate;
-
+import org.springframework.stereotype.Repository;
+@Repository
 public class RegionDao {
 
 	public String selectRegion(SqlSessionTemplate sqlSession, int regionId) {		
