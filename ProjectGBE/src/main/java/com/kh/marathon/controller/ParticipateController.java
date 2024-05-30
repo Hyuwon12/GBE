@@ -36,6 +36,7 @@ public class ParticipateController {
 	}
 	@PostMapping("insert.pa")
 	public String insertParticipate(Participate p,int memberNo,int marathonNo,HttpSession session) {
+		p.setPassword(bcryptPasswordEncoder.encode(p.getPassword()));		
 		String regionName = marathonService.selectMarathonRegionName(marathonNo);
 		int regionId = regionService.selectRegionId(regionName);
 		p.setRegionId(regionId);				

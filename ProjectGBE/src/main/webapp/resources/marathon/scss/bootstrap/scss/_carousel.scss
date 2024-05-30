@@ -1,18 +1,7 @@
-// Notes on the classes:
-//
-// 1. .carousel.pointer-event should ideally be pan-y (to allow for users to scroll vertically)
-//    even when their scroll action started on a carousel, but for compatibility (with Firefox)
-//    we're preventing all actions instead
-// 2. The .carousel-item-start and .carousel-item-end is used to indicate where
-//    the active slide is heading.
-// 3. .active.carousel-item is the current slide.
-// 4. .active.carousel-item-start and .active.carousel-item-end is the current
-//    slide in its in-transition state. Only one of these occurs at a time.
-// 5. .carousel-item-next.carousel-item-start and .carousel-item-prev.carousel-item-end
-//    is the upcoming slide in transition.
-
 .carousel {
   position: relative;
+  width: 415px;  // 고정된 너비 설정
+  height: 415px; // 고정된 높이 설정
 }
 
 .carousel.pointer-event {
@@ -22,6 +11,7 @@
 .carousel-inner {
   position: relative;
   width: 100%;
+  height: 100%; // 부모 요소의 높이를 따르도록 설정
   overflow: hidden;
   @include clearfix();
 }
@@ -31,6 +21,7 @@
   display: none;
   float: left;
   width: 100%;
+  height: 100%; // 부모 요소의 높이를 따르도록 설정
   margin-right: -100%;
   backface-visibility: hidden;
   @include transition($carousel-transition);
@@ -52,7 +43,6 @@
 .active.carousel-item-start {
   transform: translateX(-100%);
 }
-
 /* rtl:end:ignore */
 
 

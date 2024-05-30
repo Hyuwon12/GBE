@@ -89,7 +89,7 @@
 </head>
 
 <body>
-<%@include file="/views/common/menubar.jsp"%>
+<%@include file="/WEB-INF/views/common/menubar.jsp"%>
 	<div class="board_wrap">
 		<div class="board_title">
 			<h1>QnA</h1>

@@ -6,26 +6,40 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
+import org.apache.ibatis.session.SqlSession;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.stereotype.Repository;
 
 import com.kh.common.JDBCTemplate;
 import com.kh.qna.model.vo.Answer;
 import com.kh.qna.model.vo.Question;
-
+@Repository
 public class QnADao {
-	Properties prop = new Properties();
-	public QnADao() {
-		String filePath = QnADao.class.getResource("/resources/sql/qna-mapper.xml").getPath();		
-		try {
-			prop.loadFromXML(new FileInputStream(filePath));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	
+	public ArrayList<Question> selectQuestion(SqlSession sqlSession) {
+		List<Question> questionArr = sqlSession.selectList("qnaMapper.selectQuestion");
+		return (ArrayList<Question>)questionArr;
 	}
+	
+	public ArrayList<Answer> selectAllAnswer(SqlSession sqlSession) {
+		List<Answer> answerArr = sqlSession.selectList("qnaMapper.selectAllAnswer");
+		return (ArrayList<Answer>)answerArr;
+	}
+	
+	public int insertAnswer(SqlSession sqlSession, Answer an) {		
+		return sqlSession.insert("qnaMapper.insertAnswer", an);
+	}
+	
+	public ArrayList<Answer> selectAnswer(SqlSession sqlSession, int questionId) {
+		List<Answer> answerArr = sqlSession.selectList("qnaMapper.selectAnswer", questionId);
+		return (ArrayList<Answer>)answerArr;
+	}
+	
 	public int insertQuestion(Connection conn, Question q) {
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -43,103 +57,8 @@ public class QnADao {
 		}
 		return result;
 	}
-	public JSONArray selectQuestion(Connection conn) {
-		JSONArray questionArr = new JSONArray();
-		java.sql.Statement stmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectQuestion");
-		try {
-			stmt = conn.createStatement();
-			rset = stmt.executeQuery(sql);
-			while(rset.next()) {
-				JSONObject jobj = new JSONObject();
-				jobj.put("questionId",rset.getInt("QUESTION_ID"));
-				jobj.put("memberName",rset.getString("MEMBER_NAME"));
-				jobj.put("questionTitle",rset.getString("QUESTION_TITLE"));
-				jobj.put("questionContent",rset.getString("QUESTION_CONTENT"));
-				jobj.put("createDate",rset.getDate("CREATE_DATE"));
-				questionArr.add(jobj);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(stmt);
-		}
-		return questionArr;
-	}
-	public int insertAnswer(Connection conn, Answer a) {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("insertAnswer");
-		try {
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setInt(1, a.getMemberNo());
-			pstmt.setInt(2, a.getRefQno());
-			pstmt.setString(3, a.getAnswerTitle());
-			pstmt.setString(4, a.getAnswerContent());
-			result = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(pstmt);
-		}
-		return result;
-	}
-	public JSONArray selectAnswer(Connection conn, int questionId) {
-		JSONArray answerArr = new JSONArray();
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectAnswer");
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, questionId);
-			rset=pstmt.executeQuery();
-			while(rset.next()) {
-				JSONObject jobj = new JSONObject();
-				jobj.put("answerId",rset.getInt("ANSWER_ID"));
-				jobj.put("memberNo",rset.getInt("MEMBER_NO"));
-				jobj.put("memberName",rset.getString("MEMBER_NAME"));
-				jobj.put("refQno", rset.getInt("REF_QNO"));
-				jobj.put("answerTitle",rset.getString("ANSWER_TITLE"));
-				jobj.put("answerContent",rset.getString("ANSWER_CONTENT"));
-				jobj.put("createDate",rset.getDate("CREATE_DATE"));
-				answerArr.add(jobj);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}
-		return answerArr;
-	}
-	public JSONArray selectAllAnswer(Connection conn) {
-		JSONArray answerArr = new JSONArray();
-		Statement stmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectAllAnswer");
-		try {
-			stmt = conn.createStatement();			
-			rset = stmt.executeQuery(sql);
-			while(rset.next()) {
-				JSONObject jobj = new JSONObject();
-				jobj.put("answerId",rset.getInt("ANSWER_ID"));
-				jobj.put("memberName",rset.getString("MEMBER_NAME"));
-				jobj.put("refQno", rset.getInt("REF_QNO"));
-				jobj.put("answerTitle",rset.getString("ANSWER_TITLE"));
-				jobj.put("answerContent",rset.getString("ANSWER_CONTENT"));
-				jobj.put("createDate",rset.getDate("CREATE_DATE"));
-				answerArr.add(jobj);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(stmt);
-		}
-		return answerArr;
-	}
+
+	
 	public int deleteAnswer(Connection conn, int answerId) {
 		int result = 0;
 		PreparedStatement pstmt = null;
