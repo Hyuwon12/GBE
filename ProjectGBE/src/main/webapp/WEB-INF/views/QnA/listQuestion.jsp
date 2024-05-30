@@ -184,7 +184,7 @@ div.deleteBtn {
 </style>
 </head>
 <body>
-<%@include file="/views/common/menubar.jsp"%>
+<%@include file="/WEB-INF/views/common/menubar.jsp"%>
     <div class="board_wrap">
         <div class="board_title">
             <h1>지방이 QnA</h1>
@@ -202,7 +202,7 @@ div.deleteBtn {
                 <c:choose>
                 <c:when test="${empty questionArr}">
                     <div>
-                        <div colspan="5">조회된 공지사항이 없습니다.</div>
+                        <div colspan="5">등록된 글이 없습니다.</div>
                     </div>
                 </c:when>
                 <c:otherwise>
@@ -246,7 +246,7 @@ div.deleteBtn {
         	$.ajax({
         		url:"list.an",
         		data:{
-        			"questionId":questionId,        			
+        			"refQno":questionId,        			
         		},
         		success:function(answerArr){
         			for(let i=0; i<answerArr.length; i++){
@@ -282,7 +282,7 @@ div.deleteBtn {
         	$.ajax({
         		url:"insert.an",
         		data:{
-        			"questionId":questionId,
+        			"refQno":questionId,
         			"memberNo":"${loginUser.memberNo}",
         			"answerContent":answerContent,
         			"answerTitle":answerTitle,
