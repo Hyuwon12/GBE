@@ -11,5 +11,7 @@ public interface QnAService {
 	ArrayList<Answer> selectAllAnswer();
 	int insertAnswer(Answer an);
 	ArrayList<Answer> selectAnswer(int refQno);
-
+	int insertQuestion(q);
+	int deleteAnswer(int answerId);
+	int selectRefQno(int answerId);
 }

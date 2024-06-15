@@ -38,32 +38,13 @@ public class QnAServiceImpl implements QnAService {
 		return qnaDao.selectAnswer(sqlSession,questionId);
 	}
 	public int insertQuestion(Question q) {
-		Connection conn = JDBCTemplate.getConnection();
-		int result = new QnADao().insertQuestion(conn,q);
-		if(result>0) {
-			JDBCTemplate.commit(conn);
-		}else {
-			JDBCTemplate.rollback(conn);
-		}
-		JDBCTemplate.close(conn);
-		return result;
+		return qnaDao.insertQuestion(sqlSession,q);
 	}
 	
 	public int deleteAnswer(int answerId) {
-		Connection conn = JDBCTemplate.getConnection();
-		int result = new QnADao().deleteAnswer(conn,answerId);
-		if(result>0) {
-			JDBCTemplate.commit(conn);
-		}else {
-			JDBCTemplate.rollback(conn);
-		}
-		JDBCTemplate.close(conn);
-		return result;
+		return qnaDao.deleteAnswer(sqlSession,answerId);
 	}
 	public int selectRefQno(int answerId) {
-		Connection conn = JDBCTemplate.getConnection();
-		int refQno = new QnADao().selectRefQno(conn,answerId);
-		JDBCTemplate.close(conn);		
-		return refQno;
+		return qnaDao.selectRefQno(sqlSession,answerId);
 	}
 }

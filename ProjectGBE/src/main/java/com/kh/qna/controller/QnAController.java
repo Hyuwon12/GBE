@@ -21,7 +21,7 @@ import com.kh.qna.model.vo.Question;
 @Controller
 public class QnAController {
 	@Autowired
-	private QnAService qnaService;	
+	private QnAService qnaService;
 	
 	@RequestMapping("list.qu")
 	public String selectQuestion(Model model) {
@@ -50,22 +50,47 @@ public class QnAController {
 		return "QnA/insertQuestion";
 	}
 	@PostMapping("insert.qu")
-	public String insertQuestion() {
-		int memberNo = Integer.parseInt(request.getParameter("memberNo"));
-		String questionTitle = request.getParameter("questionTitle");
-		String questionContent = request.getParameter("questionContent");
-		Question q = new Question();
+	public String insertQuestion(int memberNo,Question q,Model model) {
 		q.setMemberNo(memberNo);
-		q.setQuestionTitle(questionTitle);
-		q.setQuestionContent(questionContent);
-		int result = new QnAService().insertQuestion(q);
+		int result = qnaService.insertQuestion(q);
 		String alertMsg = "";
 		if(result>0) {
 			alertMsg = "작성 성공";
 		}else {
 			alertMsg = "작성 실패";
 		}
-		request.setAttribute("alertMsg", alertMsg);
-		response.sendRedirect(request.getContextPath()+"/list.qu");
+		model.addAttribute("alertMsg", alertMsg);
+		return "redirect:/list.qu";
+	}
+	@ResponseBody
+	@GetMapping(value="list.an",produces = "application/json;charset=utf-8")
+	public ArrayList<Answer> listAnswer(int questionId,Model model){
+		JSONArray answerArr = qnaService.selectAnswer(questionId);
+		return answerArr;
+	}
+
+	@GetMapping(value="insert.an",produces="application/json;charset=utf-8")
+	public ArrayList<Answer> insertAnswer(int questionId,int memberNo,Answer an,Model model){
+		an.setRefQno(questionId);
+		an.setMemberNo(memberNo);
+		int result = new QnAService().insertAnswer(a);
+		String alertMsg = "";
+		if(result>0) {
+			alertMsg = "등록 완료";
+		}else {
+			alertMsg = "등록 실패";
+		}
+		model.addAttribute("alertMsg",alertMsg);
+		JSONArray answerArr = new QnAService().selectAnswer(questionId);
+		return answerArr;
+	}
+	@GetMapping(value="delete.an",produces="application/json;charset=utf-8")
+	public int deleteAnswer(int answerId){
+		int result = qnaService.deleteAnswer(answerId);
+		int refQno = qnaService.selectRefQno(answerId);
+		if(!result>0){
+			return "errorPage";
+		}
+		return refQno;
 	}
 }

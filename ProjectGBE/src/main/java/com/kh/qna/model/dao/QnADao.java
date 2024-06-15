@@ -40,59 +40,14 @@ public class QnADao {
 		return (ArrayList<Answer>)answerArr;
 	}
 	
-	public int insertQuestion(Connection conn, Question q) {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("insertQuestion");
-		try {
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setInt(1, q.getMemberNo());
-			pstmt.setString(2, q.getQuestionTitle());
-			pstmt.setString(3, q.getQuestionContent());
-			result = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(pstmt);
-		}
-		return result;
+	public int insertQuestion(SqlSession sqlSession, Question q) {
+		return sqlSession.insert("qnaMapper.insertQuestion",q);
 	}
-
-	
-	public int deleteAnswer(Connection conn, int answerId) {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("deleteAnswer");
-		try {
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setInt(1, answerId);
-			result = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(pstmt);
-		}
-		return result;
+	public int deleteAnswer(SqlSession sqlSession, int answerId) {
+		return sqlSession.delete("qnaMapper.deleteAnswer",answerId);
 	}
-	public int selectRefQno(Connection conn, int answerId) {
-		int refQno =0;
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectRefQno");
-		try {
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setInt(1, answerId);
-			rset=pstmt.executeQuery();
-			if(rset.next()) {
-				refQno=rset.getInt("REF_QNO");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}	
-		return refQno;
+	public int selectRefQno(SqlSession sqlSession, int answerId) {
+		return sqlSession.select("qnaMapper.selectRefQno",answerId);
 	}
 
 }
