@@ -161,7 +161,7 @@ function checkParticipate(e){
 			location.href="${contextPath}/login.me"
 		}
 	}else{		
-		location.href="${contextPath}/insert.pa?marathonNo="+$(e).closest('.packages-content').find('span').text()+"&memberNo=${loginUser.memberNo}"	
+		location.href="${contextPath}/insert.pa?marathonNo="+$(e).closest('.packages-content').find('span').text()+"&memberNo=${loginUser.memberNo}"
 	}
 }
 function checkRestore(){
